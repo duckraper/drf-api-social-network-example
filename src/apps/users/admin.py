@@ -7,7 +7,7 @@ from django.utils.translation import gettext_lazy as _
 class UserAdmin(BaseUserAdmin):
     """Admin view for User model"""
 
-    list_display = ('username', 'email', 'first_name', 'last_name', 'karma', 'is_active')
+    list_display = ('username', 'email', 'first_name', 'last_name', 'is_active')
     list_filter = ('is_active', 'is_staff', 'is_superuser', 'groups')
     search_fields = ('username', 'email', 'first_name', 'last_name')
     ordering = ('-date_joined',)
@@ -15,15 +15,14 @@ class UserAdmin(BaseUserAdmin):
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('username', 'email', 'password1', 'password2', 'karma', 'is_active')
+            'fields': ('username', 'email', 'password1', 'password2', 'is_active')
         }),
     )
 
     fieldsets = (
         (None, {'fields': ('username', 'password')}),
-        (_('Personal info'), {'fields': ('first_name', 'last_name', 'email', 'karma')}),
-        (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
-        (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
+        (_('Personal info'), {'fields': ('first_name', 'last_name', 'email')}),
+        (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')})
     )
     filter_horizontal = ('groups', 'user_permissions')
 
@@ -31,9 +30,9 @@ class UserAdmin(BaseUserAdmin):
 class ProfileAdmin(admin.ModelAdmin):
     """Admin view for Profile model"""
 
-    list_display = ('user', 'bio', 'profile_picture', 'date_of_birth', 'nationality', 'phone', 'website')
+    list_display = ('user', 'karma', 'bio', 'profile_picture', 'date_of_birth', 'nationality', 'phone', 'website')
     search_fields = ('user__username', 'bio', 'nationality', 'phone', 'website')
-    list_filter = ('date_of_birth', 'nationality')
+    list_filter = ('date_of_birth', 'nationality', 'karma')
 
     def get_queryset(self, request):
         """Optimize queryset by selecting related user"""

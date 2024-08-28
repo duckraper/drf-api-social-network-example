@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.core.cache import cache
+from django.urls import reverse
 from django.http import HttpResponseForbidden
 from rest_framework.status import HTTP_200_OK
 from django.utils.translation import gettext_lazy as _
@@ -12,7 +13,7 @@ class BruteForceProtectionMiddleware:
     def __call__(self, request):
         response = self.get_response(request)
 
-        if request.path == '/api/v1/users/auth/token/get' and request.method == 'POST':
+        if request.path == reverse('token-obtain') and request.method == 'POST':
             ip_address = request.META.get('REMOTE_ADDR')
 
             cache_key = f"login_attempt_from_{ip_address}"

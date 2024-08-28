@@ -33,11 +33,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
 ]
 
-AUTH_USER_MODEL = "users.User"
-
-MIGRATION_MODULES = {
-    "users": "migrations.users",
-}
+AUTH_USER_MODEL = 'users.User'
 
 INSTALLED_APPS = [
     # django apps
@@ -55,11 +51,12 @@ INSTALLED_APPS = [
     'corsheaders',
 
     # my apps
+    'apps.authentication',
     'apps.users',
 ]
 
 BRUTE_FORCE_THRESHOLD = 6
-BRUTE_FORCE_TIMEOUT = 3600
+BRUTE_FORCE_TIMEOUT = 60  # TODO cambiar a mas (3600)
 REQUESTS_PER_MINUTE_ALLOWED = 500
 
 
@@ -70,13 +67,16 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.AllowAny',
     ),
-    # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    # 'PAGE_SIZE': 12,
+    # 'DEFAULT_FILTER_BACKENDS': (
+    #     'django_filters.rest_framework.DjangoFilterBackend'
+    # ),
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 20,
 }
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=30),
-    "REFRESH_TOKEN_LIFETIME": timedelta(weeks=4),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=120),
     "ROTATE_REFRESH_TOKENS": True,
     "BLACKLIST_AFTER_ROTATION": True,
     "UPDATE_LAST_LOGIN": False,
@@ -115,7 +115,7 @@ SIMPLE_JWT = {
 }
 
 MIDDLEWARE = [
-    'core.utils.middlewares.BruteForceProtectionMiddleware',
+    'apps.authentication.middlewares.BruteForceProtectionMiddleware',
     'core.utils.middlewares.DDoSProtectionMiddleware',
 
     'django.middleware.security.SecurityMiddleware',
