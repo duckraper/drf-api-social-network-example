@@ -53,6 +53,10 @@ INSTALLED_APPS = [
     # my apps
     'apps.authentication',
     'apps.users',
+    'apps.posts',
+    'apps.tags',
+    'apps.comments',
+    'apps.votes'
 ]
 
 BRUTE_FORCE_THRESHOLD = 6
