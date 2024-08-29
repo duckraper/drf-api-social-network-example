@@ -1,4 +1,5 @@
 from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework.permissions import IsAuthenticated
@@ -15,7 +16,14 @@ from apps.users.models import User
 class MyTokenObtainPairView(TokenObtainPairView):
     def post(self, request, *args, **kwargs):
         username = request.data.get('username')
-        user: User = User.objects.get(username=username)
+        try:
+            user: User = User.objects.get(username=username)
+        except User.DoesNotExist:
+            return Response(
+                {"message": _("No active account found with the given credentials")},
+                status=HTTP_400_BAD_REQUEST
+            )
+        print(f"{user=}")
         user.last_login = timezone.now()
         user.save()
 

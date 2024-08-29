@@ -6,7 +6,6 @@ from .views import MyTokenObtainPairView, LogoutView
 
 urlpatterns = [
     path('token/', include([
-        # TODO: extender obtain-pair para que actualice el last-login cuando eso
         path('get', MyTokenObtainPairView.as_view(), name='token-obtain'),
         path('refresh', TokenRefreshView.as_view(), name='token-refresh'),
     ])),
