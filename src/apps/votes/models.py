@@ -10,16 +10,14 @@ class Vote(m.Model):
 
     user = m.ForeignKey(to='users.User', on_delete=m.CASCADE, related_name='voted_posts')
     post = m.ForeignKey(
-        to='Post',
-        to_field='pk',
+        to='posts.Post',
         on_delete=m.CASCADE,
         related_name='votes',
         blank=True,
         null=True
     )
     comment = m.ForeignKey(
-        to='Comment',
-        to_field='pk',
+        to='comments.Comment',
         on_delete=m.CASCADE,
         related_name='votes',
         blank=True,
@@ -28,7 +26,9 @@ class Vote(m.Model):
     value = m.SmallIntegerField(choices=votes)
 
     class Meta:
-        abstract = True
+        db_table = 'vote'
+        verbose_name = 'vote'
+        verbose_name_plural = 'votes'
         unique_together = ['user', 'value', 'post'] or ['user', 'value', 'comment']
 
     def save(self, *args, **kwargs):

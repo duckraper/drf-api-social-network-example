@@ -12,5 +12,11 @@ class Post(m.Model):
     created_at = m.DateTimeField(auto_now_add=True)
     updated_at = m.DateTimeField()
 
+    class Meta:
+        db_table = 'post'
+        verbose_name = 'post'
+        verbose_name_plural = 'posts'
+
+
     def __str__(self):
         return f'"{self.content[:50]}...{self.content[-50:]}" by @{self.user.username}'
