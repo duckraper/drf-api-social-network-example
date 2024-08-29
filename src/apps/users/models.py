@@ -10,6 +10,7 @@ GENDERS = (
     ("N", _("Prefer not to say"))
 )
 
+# TODO: pensar en un sistema de seguidores y seguidos
 class User(AbstractUser):
     """It's always a good idea to extend the default user model provided by Django"""
     email = m.EmailField(_("email address"), unique=True, blank=False, null=False)
@@ -54,8 +55,8 @@ class Profile(m.Model):
     """Sometimes profile model is used for storing additional information about the user that
     that has nothin' to do with authentication process. For automatic profile creation use signals."""
     user = m.OneToOneField(
-        db_column="user",
-        to=User,
+        db_column="username",
+        to='users.User',
         to_field="username",
         primary_key=True,
         auto_created=True,
