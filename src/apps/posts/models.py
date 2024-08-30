@@ -17,6 +17,5 @@ class Post(m.Model):
         verbose_name = 'post'
         verbose_name_plural = 'posts'
 
-
     def __str__(self):
         return f'"{self.content[:50]}...{self.content[-50:]}" by @{self.user.username}'
