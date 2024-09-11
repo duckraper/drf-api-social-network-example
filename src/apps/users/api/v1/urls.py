@@ -1,8 +1,9 @@
 from django.urls import path, include
-from .views import UsersViewSet, UserRegitrationViewSet
-from .routers import UsersCRUDRouter
 
-router = UsersCRUDRouter(trailing_slash=False)
+from apps.users.api.v1.routers import UsersRouter
+from apps.users.api.v1.views.viewsets import UsersViewSet, UserRegitrationViewSet
+
+router = UsersRouter(trailing_slash=False)
 router.register(r'', viewset=UsersViewSet)
 
 

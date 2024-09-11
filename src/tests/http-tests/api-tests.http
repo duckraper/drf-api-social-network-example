@@ -1,0 +1,78 @@
+### GET request to example server
+POST {{base_url}}/users/register
+Content-Type: application/json
+
+{
+  "username": "foo",
+  "email": "foo@example.com",
+  "first_name": "string",
+  "last_name": "string",
+  "password": "buenosdias",
+  "password2": "buenosdias"
+}
+
+### GET request to example server
+POST {{base_url}}/auth/token/get
+Content-Type: application/json
+
+{
+  "username": "foo",
+  "password": "buenosdias"
+}
+
+> {%
+    client.global.set("access_token", response.body.access)
+    client.global.set("refresh_token", response.body.refresh)
+ %}
+
+###
+< {% request.variables.set("refresh_token", client.global.get("refresh_token")) %}
+
+POST {{base_url}}/auth/token/refresh
+Content-Type: application/json
+Authorization: Bearer {{access_token}}
+
+{
+  "refresh": "{{refresh_token}}"
+}
+
+> {%
+    client.global.set("access_token", response.body.access)
+    client.global.set("refresh_token", response.body.refresh)
+%}
+
+###
+GET {{base_url}}/users/
+Authorization: Bearer {{access_token}}
+
+###
+GET {{base_url}}/posts/
+Authorization: Bearer {{access_token}}
+
+###
+POST {{base_url}}/posts/
+Authorization: Bearer {{access_token}}
+Content-Type: application/json
+
+{
+  "content": "jodanse*"
+}
+
+> {% client.global.set('post_id', response.body.id) %}
+
+###
+GET {{base_url}}/posts/{{post_id}}
+Authorization: Bearer {{access_token}}
+
+###
+PATCH {{base_url}}/posts/{{post_id}}
+Authorization: Bearer {{access_token}}
+content-Type: application/json
+
+{
+  "content": "hoy si me banio"
+}
+
+###lcc'''llcl'lcacLca'aa'lsa"sl as'll'
+DELETE {{base_url}}/posts/{{post_id}}
+Authorization: Bearer {{access_token}}

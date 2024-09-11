@@ -54,9 +54,6 @@ INSTALLED_APPS = [
     'apps.authentication',
     'apps.users',
     'apps.posts',
-    'apps.tags',
-    'apps.comments',
-    'apps.votes'
 ]
 
 BRUTE_FORCE_THRESHOLD = 6
@@ -69,7 +66,7 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.AllowAny',
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
     ),
     # 'DEFAULT_FILTER_BACKENDS': (
     #     'django_filters.rest_framework.DjangoFilterBackend'
