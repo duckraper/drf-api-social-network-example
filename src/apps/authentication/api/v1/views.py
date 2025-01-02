@@ -20,6 +20,10 @@ class MyTokenObtainPairView(TokenObtainPairView):
         username = request.data.get('username')
         try:
             user: User = User.objects.get(username=username)
+
+            # validacion para [CVE-2024-22513](https://www.exploit-db.com/exploits/51992)
+            if not user.is_active:
+                raise User.DoesNotExist
         except User.DoesNotExist:
             return Response(
                 {"message": _("No active account found with the given credentials")},
